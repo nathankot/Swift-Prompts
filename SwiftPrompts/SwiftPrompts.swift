@@ -11,11 +11,11 @@
 
 import UIKit
 
-public class SwiftPrompts : NSObject {
+open class SwiftPrompts : NSObject {
 
     //// Drawing Methods
 
-  public class func drawSwiftPrompt(frame frame: CGRect,
+  open class func drawSwiftPrompt(frame: CGRect,
                                     backgroundColor: UIColor,
                                     headerTxtColor: UIColor,
                                     contentTxtColor: UIColor,
@@ -33,35 +33,35 @@ public class SwiftPrompts : NSObject {
         rectanglePath.fill()
 
         //// Text Drawing
-        let textRect = CGRectMake(frame.minX + 13, frame.minY + 56, frame.width - 26, frame.height - 109)
-        let textStyle = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-        textStyle.alignment = NSTextAlignment.Center
+        let textRect = CGRect(x: frame.minX + 13, y: frame.minY + 56, width: frame.width - 26, height: frame.height - 109)
+        let textStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        textStyle.alignment = NSTextAlignment.center
 
         let textFontAttributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: textSize)!, NSForegroundColorAttributeName: contentTxtColor, NSParagraphStyleAttributeName: textStyle]
 
-        let textTextHeight: CGFloat = NSString(string: promptText).boundingRectWithSize(CGSizeMake(textRect.width, CGFloat.infinity), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.height
-        CGContextSaveGState(context)
-        CGContextClipToRect(context, textRect);
-        NSString(string: promptText).drawInRect(CGRectMake(textRect.minX, textRect.minY + (textRect.height - textTextHeight) / 2, textRect.width, textTextHeight), withAttributes: textFontAttributes)
-        CGContextRestoreGState(context)
+        let textTextHeight: CGFloat = NSString(string: promptText).boundingRect(with: CGSize(width: textRect.width, height: CGFloat.infinity), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.height
+        context?.saveGState()
+        context?.clip(to: textRect);
+        NSString(string: promptText).draw(in: CGRect(x: textRect.minX, y: textRect.minY + (textRect.height - textTextHeight) / 2, width: textRect.width, height: textTextHeight), withAttributes: textFontAttributes)
+        context?.restoreGState()
 
 
         //// Text 2 Drawing
-        let text2Rect = CGRectMake(frame.minX + floor(frame.width * 0.05333 + 0.5),
-                                   frame.minY + 20,
-                                   floor(frame.width * 0.93778 + 0.5) - floor(frame.width * 0.05333 + 0.5),
-                                   34)
+        let text2Rect = CGRect(x: frame.minX + floor(frame.width * 0.05333 + 0.5),
+                                   y: frame.minY + 20,
+                                   width: floor(frame.width * 0.93778 + 0.5) - floor(frame.width * 0.05333 + 0.5),
+                                   height: 34)
 
-        let text2Style = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-        text2Style.alignment = NSTextAlignment.Center
+        let text2Style = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        text2Style.alignment = NSTextAlignment.center
 
         let text2FontAttributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: headerSize)!, NSForegroundColorAttributeName: headerTxtColor, NSParagraphStyleAttributeName: text2Style]
 
-        let text2TextHeight: CGFloat = NSString(string: headerText).boundingRectWithSize(CGSizeMake(text2Rect.width, CGFloat.infinity), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: text2FontAttributes, context: nil).size.height
-        CGContextSaveGState(context)
-        CGContextClipToRect(context, text2Rect);
-        NSString(string: headerText).drawInRect(CGRectMake(text2Rect.minX, text2Rect.minY + (text2Rect.height - text2TextHeight) / 2, text2Rect.width, text2TextHeight), withAttributes: text2FontAttributes)
-        CGContextRestoreGState(context)
+        let text2TextHeight: CGFloat = NSString(string: headerText).boundingRect(with: CGSize(width: text2Rect.width, height: CGFloat.infinity), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: text2FontAttributes, context: nil).size.height
+        context?.saveGState()
+        context?.clip(to: text2Rect);
+        NSString(string: headerText).draw(in: CGRect(x: text2Rect.minX, y: text2Rect.minY + (text2Rect.height - text2TextHeight) / 2, width: text2Rect.width, height: text2TextHeight), withAttributes: text2FontAttributes)
+        context?.restoreGState()
 
 
     }
@@ -69,9 +69,9 @@ public class SwiftPrompts : NSObject {
 }
 
 @objc protocol StyleKitSettableImage {
-    func setImage(image: UIImage!)
+    func setImage(_ image: UIImage!)
 }
 
 @objc protocol StyleKitSettableSelectedImage {
-    func setSelectedImage(image: UIImage!)
+    func setSelectedImage(_ image: UIImage!)
 }
